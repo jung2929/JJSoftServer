@@ -1,1 +1,21 @@
 This is JJSoft's Server Side For JungWooHyun.
+
+
+play.crypto.secret = "changeme"
+
+play.modules {
+  enabled += "scalikejdbc.PlayModule"
+}
+
+play.i18n {
+  # The application languages
+  langs = [ "ko" ]
+}
+
+db {
+  default.driver=org.postgresql.Driver
+  default.url="jdbc:postgresql://localhost:5432/JJSoft?currentSchema=public"
+  default.username = JJSoftConnector
+  default.password = "default" // Please Update When you are working.
+  #default.logSql=true
+}
