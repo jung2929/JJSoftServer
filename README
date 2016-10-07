@@ -1,6 +1,8 @@
 This is JJSoft's Server Side For JungWooHyun.
 
 
+this is application conf's setting contents.
+
 play.crypto.secret = "changeme"
 
 play.modules {

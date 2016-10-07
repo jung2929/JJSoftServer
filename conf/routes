@@ -1,1 +1,3 @@
-GET     /sign_in                           controllers.HomeController.index
+# Login 관련
+GET     /login                             controllers.HomeController.login(requestUserId: String ?= "kwoninyoung", requestUserPassword: String ?= "12345")
+POST    /register                          controllers.HomeController.register()
