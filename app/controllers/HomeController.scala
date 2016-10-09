@@ -54,7 +54,7 @@ class HomeController @Inject() extends Controller {
       }*/
 
       //(isProgramIdExists, isProgramNameEmpty) match {
-      (false, false) match {
+      (false, true) match {
         case (true,false) => Some(JsonResult(errorMsg = "이미 존재하는 프로그램ID입니다."))
         case (true,true) => Some(JsonResult(errorMsg = "이미 존재하는 프로그램ID이며, 프로그램명이 비었습니다."))
         case (false, false) => Some(JsonResult(errorMsg = "프로그램명이 비었습니다."))
@@ -63,31 +63,20 @@ class HomeController @Inject() extends Controller {
     }
   }
 
-  def toSqlParam(target: Seq[RegisterData]): Seq[Seq[(Symbol, Any)]] = {
-    target.map(t => Seq(
-      'USER_ID -> t.USER_ID,
-      'USER_PASSWORD -> t.USER_PASSWORD,
-      'USER_NM -> t.USER_NM,
-      'MOBLPHON -> t.MOBLPHON,
-      'EMAIL -> t.EMAIL
-    ))
-  }
-
   def register() = Action { implicit req =>
     val body = req.body.asJson.get
-    val data = body.as[Seq[RegisterData]]
-    val validationResult = data.toStream.flatMap(t => t.validateInsert()).headOption
+    val data = body.as[RegisterData]
+    val validationResult = data.validateInsert().headOption
     validationResult match {
       case Some(t) => BadRequest(t)
       case None =>
 
-        val insertSqlParam = toSqlParam(data)
         DB localTx { implicit session =>
           sql"""
              INSERT INTO "USER_INFO"("USER_ID", "USER_PASSWORD", "USER_NM", "MOBLPHON", "EMAIL", "USE_AT", "REG_DATE", "LOG_TM")
-             VALUES ({USER_ID}, {USER_PASSWORD}, {USER_NM}, {MOBLPHON}, {EMAIL}, '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+             VALUES (${data.USER_ID}, ${data.USER_PASSWORD}, ${data.USER_NM}, ${data.MOBLPHON}, ${data.EMAIL}, '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
             """
-            .batchByName(insertSqlParam: _*).apply()
+            .update().apply()
         }
         Ok
     }
