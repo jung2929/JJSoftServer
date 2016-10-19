@@ -8,7 +8,7 @@ import play.api.mvc._
 import scalikejdbc._
 
 @Singleton
-class HomeController @Inject() extends Controller {
+class basic @Inject() extends Controller {
 
   object UserInfo {
     implicit val residentWrites = Json.writes[UserInfo]

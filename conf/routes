@@ -1,3 +1,4 @@
 # Login 관련
-GET     /login                             controllers.HomeController.login(requestUserId: String ?= "kwoninyoung", requestUserPassword: String ?= "12345")
-POST    /register                          controllers.HomeController.register()
+GET     /login                             controllers.basic.login(requestUserId: String ?= "kwoninyoung", requestUserPassword: String ?= "12345")
+POST    /register                          controllers.basic.register()
+GET     /list-retrieve                     controllers.list.retrieve(requestInputDateFrom : String, requestInputDateTo : String, requestUserId : String)
