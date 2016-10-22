@@ -17,9 +17,9 @@ class list @Inject() extends Controller {
     implicit val residentWrites = Json.writes[ListInfo]
   }
   case class ListInfo (inputDate: String,
-                       inputPc: Long,
+                       inputPc: Int,
                        inputIem: String,
-                       inputCatagory: String,
+                       inputCategory: String,
                        inputMemo: String)
 
   def retrieve(requestInputDateFrom : String,
@@ -35,6 +35,7 @@ class list @Inject() extends Controller {
                                                WHERE "INPUT_DATE" BETWEEN $requestInputDateFrom AND $requestInputDateTo
                                                AND "USER_ID" = $requestUserId
                                                AND "USE_AT" = '1'
+                                               ORDER BY substring("INPUT_DATE" from 1 for 4) || '-' || substring("INPUT_DATE" from 5 for 2) || '-' || substring("INPUT_DATE" from 7 for 2) ASC
                                                """)
     Ok(jsonResult)
   }
