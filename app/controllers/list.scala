@@ -17,7 +17,7 @@ class list @Inject() extends Controller {
     implicit val residentWrites = Json.writes[ListInfo]
   }
   case class ListInfo (inputDate: String,
-                       inputPc: String,
+                       inputPc: Long,
                        inputIem: String,
                        inputCatagory: String,
                        inputMemo: String)
@@ -26,7 +26,11 @@ class list @Inject() extends Controller {
             requestInputDateTo : String,
             requestUserId : String) = Action {
     val jsonResult: JsonResult = sqlToJsonOutput(sql"""
-                                               SELECT "INPUT_DATE", "INPUT_PC", "INPUT_IEM", "INPUT_CATAGORY", "INPUT_MEMO"
+                                               SELECT substring("INPUT_DATE" from 1 for 4) || '-' || substring("INPUT_DATE" from 5 for 2) || '-' || substring("INPUT_DATE" from 7 for 2) AS "INPUT_DATE",
+                                                      "INPUT_PC",
+                                                      "INPUT_IEM",
+                                                      "INPUT_CATEGORY",
+                                                      "INPUT_MEMO"
                                                FROM "INCME_EXPNDTR_INPUT"
                                                WHERE "INPUT_DATE" BETWEEN $requestInputDateFrom AND $requestInputDateTo
                                                AND "USER_ID" = $requestUserId
