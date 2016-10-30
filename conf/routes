@@ -4,8 +4,11 @@ GET     /login                             controllers.basic.login(requestUserId
 # 회원가입 관련
 POST    /register                          controllers.basic.register()
 
+# 자산 관련
+GET     /total-price-retrieve              controllers.basic.retrieve(requestUserId: String ?= "")
+
 # 수입내역 등록 관련
-POST    /income_register                   controllers.income.register()
+POST    /income-register                   controllers.income.register()
 
 # 지출내역 관련
 GET     /list-retrieve                     controllers.list.retrieve(requestInputDateFrom : String, requestInputDateTo : String, requestUserId : String)

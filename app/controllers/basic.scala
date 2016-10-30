@@ -10,10 +10,10 @@ import scalikejdbc._
 @Singleton
 class basic @Inject() extends Controller {
 
-  object UserInfo {
+  /*object UserInfo {
     implicit val residentWrites = Json.writes[UserInfo]
   }
-  case class UserInfo (userId: String, userPassword: String)
+  case class UserInfo (userId: String, userPassword: String)*/
 
   def login(requestUserId : String,
             requestUserPassword : String) = Action {
@@ -24,7 +24,7 @@ class basic @Inject() extends Controller {
                             """)
 
     val resultMap: Map[String, Boolean] = {
-      Map[String, Boolean]("result" -> isUserValidation)
+      Map[String, Boolean]("RESULT" -> isUserValidation)
     }
 
     isUserValidation match {
@@ -82,4 +82,29 @@ class basic @Inject() extends Controller {
     }
   }
 
+
+  def retrieve(requestUserId : String) = Action {
+    val jsonResult: JsonResult = sqlToJsonOutput(
+      sql"""
+                                               |SELECT SUM(A.INCOME_PRICE) - SUM(A.SPEND_PRICE) AS "TOTAL_PRICE"
+                                               |FROM (
+                                               |        SELECT
+                                               |                SUM("INPUT_PC") AS INCOME_PRICE,
+                                               |                0               AS SPEND_PRICE
+                                               |        FROM "INCME_EXPNDTR_INPUT"
+                                               |        WHERE "USER_ID" = $requestUserId
+                                               |              AND "USE_AT" = '1'
+                                               |              AND "INPUT_DIVISION" = '001'
+                                               |        UNION ALL
+                                               |        SELECT
+                                               |                0               AS INCOME_PRICE,
+                                               |                SUM("INPUT_PC") AS SPEND_PRICE
+                                               |        FROM "INCME_EXPNDTR_INPUT"
+                                               |        WHERE "USER_ID" = $requestUserId
+                                               |              AND "USE_AT" = '1'
+                                               |              AND "INPUT_DIVISION" = '002'
+                                               |        ) A;
+                                               """)
+    Ok(jsonResult)
+  }
 }
