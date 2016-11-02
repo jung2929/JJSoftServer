@@ -9,6 +9,7 @@ GET     /total-price-retrieve              controllers.basic.retrieve(requestUse
 
 # 수입내역 등록 관련
 POST    /income-register                   controllers.income.register()
+GET     /income-cate-edit-retrieve         controllers.income.retrieve(requestUserId: String ?= "")
 
 # 지출내역 관련
 GET     /list-retrieve                     controllers.list.retrieve(requestInputDateFrom : String, requestInputDateTo : String, requestUserId : String)

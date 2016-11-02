@@ -1,12 +1,13 @@
-name := """schedule_manager_web"""
+name := """root"""
 
 version := "1.0-SNAPSHOT"
 
-lazy val root = (project in file(".")).enablePlugins(PlayScala)
-
-scalaVersion := "2.11.7"
+lazy val `root` = (project in file(".")).enablePlugins(PlayScala)
+//
+scalaVersion := "2.11.8"
 
 libraryDependencies ++= Seq(
+  javaJdbc,
   jdbc,
   cache,
   ws,

@@ -61,4 +61,16 @@ class income @Inject() extends Controller {
         Ok
     }
   }
+
+  def retrieve(requestUserId : String) = Action {
+    val jsonResult: JsonResult = sqlToJsonOutput(
+      sql"""
+         |        SELECT "CL_CODE_NM"
+         |        FROM "CMMN_CL_CODE"
+         |        WHERE "USER_ID" = $requestUserId
+         |        AND "USE_AT" = '1'
+         |        ORDER BY "CL_CODE_NM" ASC
+                                               """)
+    Ok(jsonResult)
+  }
 }
