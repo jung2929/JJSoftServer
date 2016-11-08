@@ -58,7 +58,7 @@ class category @Inject extends Controller {
         DB localTx { implicit session =>
           sql"""
              INSERT INTO "CMMN_CL_CODE"("INPUT_DIVISION", "CL_CODE", "CL_CODE_NM", "USE_AT", "CODE_DC", "REG_DATE", "USER_ID")
-             SELECT ${data.INPUT_DIVISION}, TRIM(to_char(CAST(MAX("CL_CODE") AS NUMERIC(5,0)) + 1, '000')), ${data.CL_CODE_NM}, '1', NULL, CURRENT_TIMESTAMP , ${data.USER_ID}
+             SELECT ${data.INPUT_DIVISION}, TRIM(to_char(CAST(COALESCE(MAX("CL_CODE"),'0') AS NUMERIC(5,0)) + 1, '000')), ${data.CL_CODE_NM}, '1', NULL, CURRENT_TIMESTAMP , ${data.USER_ID}
              FROM "CMMN_CL_CODE"
              WHERE "INPUT_DIVISION" = ${data.INPUT_DIVISION}
              AND "USER_ID"= ${data.USER_ID}
