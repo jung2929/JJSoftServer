@@ -30,11 +30,13 @@ class list @Inject() extends Controller {
                                                       "INPUT_PC",
                                                       "INPUT_IEM",
                                                       "INPUT_CATEGORY",
-                                                      "INPUT_MEMO"
+                                                      "INPUT_MEMO",
+                                                      "INPUT_METHOD_CONTENTS"
                                                FROM "INCME_EXPNDTR_INPUT"
                                                WHERE "INPUT_DATE" BETWEEN $requestInputDateFrom AND $requestInputDateTo
                                                AND "USER_ID" = $requestUserId
                                                AND "USE_AT" = '1'
+                                               AND "INPUT_DIVISION" = '002'
                                                ORDER BY substring("INPUT_DATE" from 1 for 4) || '-' || substring("INPUT_DATE" from 5 for 2) || '-' || substring("INPUT_DATE" from 7 for 2) ASC
                                                """)
     Ok(jsonResult)
