@@ -9,10 +9,10 @@ import scalikejdbc._
 
 
 /**
-  * Created by jungwh on 2016-10-25.
+  * Created by jungwh on 2016-11-11.
   */
 @Singleton
-class income @Inject() extends Controller {
+class spend @Inject() extends Controller {
   implicit val RegisterDataConverter = Json.reads[RegisterData]
 
   case class RegisterData(INPUT_DATE: String,
@@ -21,6 +21,7 @@ class income @Inject() extends Controller {
                           INPUT_IEM: String,
                           INPUT_CATEGORY: String,
                           INPUT_MEMO: String,
+                          INPUT_METHOD_CONTENTS: String,
                           USER_ID: String){
     def validateInsert(): Option[JsonResult] = {
       /*val programLevel: Int = PROGRAM_GB match {
@@ -53,8 +54,8 @@ class income @Inject() extends Controller {
 
         DB localTx { implicit session =>
           sql"""
-             INSERT INTO public."INCME_EXPNDTR_INPUT"("INPUT_DATE", "INPUT_DIVISION", "INPUT_PC", "INPUT_IEM", "INPUT_CATEGORY", "INPUT_MEMO", "USER_ID", "USE_AT", "REG_DATE")
-             VALUES (${data.INPUT_DATE}, ${data.INPUT_DIVISION}, ${data.INPUT_PC}, ${data.INPUT_IEM}, ${data.INPUT_CATEGORY}, ${data.INPUT_MEMO}, ${data.USER_ID}, '1', CURRENT_TIMESTAMP)
+             INSERT INTO public."INCME_EXPNDTR_INPUT"("INPUT_DATE", "INPUT_DIVISION", "INPUT_PC", "INPUT_IEM", "INPUT_CATEGORY", "INPUT_MEMO", "INPUT_METHOD_CONTENTS", "USER_ID", "USE_AT", "REG_DATE")
+             VALUES (${data.INPUT_DATE}, ${data.INPUT_DIVISION}, ${data.INPUT_PC}, ${data.INPUT_IEM}, ${data.INPUT_CATEGORY}, ${data.INPUT_MEMO}, ${data.INPUT_METHOD_CONTENTS}, ${data.USER_ID}, '1', CURRENT_TIMESTAMP)
             """
             .update().apply()
         }
