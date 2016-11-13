@@ -13,15 +13,6 @@ import scalikejdbc._
 
 @Singleton
 class list @Inject() extends Controller {
-  object ListInfo {
-    implicit val residentWrites = Json.writes[ListInfo]
-  }
-  case class ListInfo (inputDate: String,
-                       inputPc: Int,
-                       inputIem: String,
-                       inputCategory: String,
-                       inputMemo: String)
-
   def retrieve(requestInputDateFrom : String,
             requestInputDateTo : String,
             requestUserId : String) = Action {

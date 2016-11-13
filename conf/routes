@@ -20,3 +20,8 @@ DELETE  /category-delete                  controllers.category.delete()
 
 # 지출내역 관련
 GET     /list-retrieve                    controllers.list.retrieve(requestInputDateFrom : String, requestInputDateTo : String, requestUserId : String)
+
+# 차트 조회 관련
+GET     /bar-chart-retrieve               controllers.chart.barChartRetrieve(requestUserId : String, requestMonth : String, requestCategory : String)
+GET     /pie-chart-retrieve               controllers.chart.PieChartRetrieve(requestUserId : String, requestMonth : String)
+GET     /line-chart-retrieve              controllers.chart.LineChartRetrieve(requestUserId : String)
